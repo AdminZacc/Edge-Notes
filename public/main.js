@@ -73,7 +73,9 @@ const el = {
   loadingOverlay: document.getElementById('loadingOverlay'),
   loadingText: document.getElementById('loadingText'),
   wordCount: document.getElementById('wordCount'),
-  charCount: document.getElementById('charCount')
+  charCount: document.getElementById('charCount'),
+  progressContainer: document.getElementById('progressContainer'),
+  progressBar: document.getElementById('progressBar')
 };
 
 // Word count functionality
@@ -90,11 +92,47 @@ el.note.addEventListener('input', updateWordCount);
 // Initialize on load
 updateWordCount();
 
+// Progress bar animation
+const progress = {
+  intervalId: null,
+  currentWidth: 0,
+  
+  start() {
+    this.currentWidth = 0;
+    el.progressBar.style.width = '0%';
+    el.progressContainer.classList.add('active');
+    
+    // Animate progress: fast start, slow middle, never reaches 100%
+    this.intervalId = setInterval(() => {
+      // Slow down as we approach 90%
+      const remaining = 90 - this.currentWidth;
+      const increment = Math.max(0.5, remaining * 0.08);
+      this.currentWidth = Math.min(90, this.currentWidth + increment);
+      el.progressBar.style.width = `${this.currentWidth}%`;
+    }, 100);
+  },
+  
+  complete() {
+    clearInterval(this.intervalId);
+    this.currentWidth = 100;
+    el.progressBar.style.width = '100%';
+    
+    // Hide after completion animation
+    setTimeout(() => {
+      el.progressContainer.classList.remove('active');
+      setTimeout(() => {
+        el.progressBar.style.width = '0%';
+      }, 300);
+    }, 400);
+  }
+};
+
 // Loading state management
 const loading = {
   show(message = 'Processing...', button = null) {
     el.loadingText.textContent = message;
     el.loadingOverlay.classList.add('active');
+    progress.start();
     if (button) {
       button.classList.add('loading');
       button.disabled = true;
@@ -106,6 +144,7 @@ const loading = {
   },
   hide(button = null) {
     el.loadingOverlay.classList.remove('active');
+    progress.complete();
     if (button) {
       button.classList.remove('loading');
     }

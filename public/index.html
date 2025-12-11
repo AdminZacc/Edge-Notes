@@ -94,6 +94,13 @@
     .btn-primary.loading::after { border-color: rgba(255,255,255,0.3); border-top-color: white; }
     .btn-secondary.loading::after { border-color: var(--border-color); border-top-color: var(--primary); }
     .btn-accent.loading::after { border-color: rgba(0,0,0,0.2); border-top-color: #1a1a1a; }
+    /* Progress bar */
+    .progress-container { position: fixed; top: 0; left: 0; right: 0; height: 4px; z-index: 1001; opacity: 0; transition: opacity 0.3s; }
+    .progress-container.active { opacity: 1; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary)); background-size: 200% 100%; border-radius: 0 2px 2px 0; animation: progress-shimmer 1.5s ease-in-out infinite; transition: width 0.3s ease-out; }
+    @keyframes progress-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .progress-glow { position: absolute; top: 0; right: 0; width: 100px; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: progress-glow 1.5s ease-in-out infinite; }
+    @keyframes progress-glow { 0% { transform: translateX(-100px); } 100% { transform: translateX(100px); } }
     /* Word count */
     .word-count { display: flex; justify-content: flex-end; gap: 16px; padding: 8px 4px 0; font-size: 12px; color: var(--text-muted); }
     .word-count span { display: flex; align-items: center; gap: 4px; }
@@ -102,6 +109,13 @@
   </style>
 </head>
 <body>
+  <!-- Progress bar -->
+  <div id="progressContainer" class="progress-container">
+    <div id="progressBar" class="progress-bar">
+      <div class="progress-glow"></div>
+    </div>
+  </div>
+
   <!-- Loading overlay -->
   <div id="loadingOverlay" class="loading-overlay">
     <div class="loading-card">
@@ -151,14 +165,33 @@
         <div class="style-row">
           <label for="styleSelect" class="sr-only">Select writing style</label>
           <select id="styleSelect" title="Select writing style" class="style-select">
-            <option value="formal">Formal</option>
-            <option value="casual">Casual</option>
-            <option value="creative">Creative</option>
-            <option value="academic">Academic</option>
-            <option value="persuasive">Persuasive</option>
-            <option value="humorous">Humorous</option>
-            <option value="poetic">Poetic</option>
-            <option value="simple">Simple</option>
+            <optgroup label="📋 Professional">
+              <option value="formal">Formal</option>
+              <option value="business">Business</option>
+              <option value="academic">Academic</option>
+              <option value="technical">Technical</option>
+            </optgroup>
+            <optgroup label="💬 Conversational">
+              <option value="casual">Casual</option>
+              <option value="friendly">Friendly</option>
+              <option value="simple">Simple</option>
+            </optgroup>
+            <optgroup label="✨ Creative">
+              <option value="creative">Creative</option>
+              <option value="poetic">Poetic</option>
+              <option value="storytelling">Storytelling</option>
+              <option value="humorous">Humorous</option>
+            </optgroup>
+            <optgroup label="🎯 Persuasive">
+              <option value="persuasive">Persuasive</option>
+              <option value="motivational">Motivational</option>
+              <option value="sales">Sales Pitch</option>
+            </optgroup>
+            <optgroup label="📰 Content">
+              <option value="journalistic">Journalistic</option>
+              <option value="social">Social Media</option>
+              <option value="seo">SEO Optimized</option>
+            </optgroup>
           </select>
           <button id="style" class="btn btn-accent">🎨 Apply Style</button>
         </div>
