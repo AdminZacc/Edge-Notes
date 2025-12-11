@@ -16,7 +16,7 @@ export const onRequestPost: PagesFunction = async ({ request, env }) => {
   const body = await request.json().catch(() => ({}));
   const token = body?.turnstileToken;
   if (!token) {
-    return new Response(JSON.stringify({ error: "Missing Turnstile token" }), { status: 400 });
+    return new Response(JSON.stringify({ error: "Missing Turnstile token" }), { status: 400, headers: { "Content-Type": "application/json" } });
   }
   const form = new URLSearchParams();
   form.append("secret", env.TURNSTILE_SECRET);
@@ -26,6 +26,6 @@ export const onRequestPost: PagesFunction = async ({ request, env }) => {
     body: form,
   }).then((r) => r.json());
   if (!verify.success) {
-    return new Response(JSON.stringify({ error: "Turnstile failed" }), { status: 403 });
+    return new Response(JSON.stringify({ error: "Turnstile failed" }), { status: 403, headers: { "Content-Type": "application/json" } });
   }
 };

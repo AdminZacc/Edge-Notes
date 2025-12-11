@@ -3,7 +3,7 @@ import type { PagesFunction } from "./types";
 export const onRequestPost: PagesFunction = async ({ request, env }) => {
   const { content, target = "es" } = await request.json();
   if (!content || typeof content !== "string") {
-    return new Response(JSON.stringify({ error: "Invalid content" }), { status: 400 });
+    return new Response(JSON.stringify({ error: "Invalid content" }), { status: 400, headers: { "Content-Type": "application/json" } });
   }
   const prompt = `Translate the following text into ${target}. Preserve meaning and tone.\n\n${content}`;
   const aiRes = await env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
@@ -13,5 +13,5 @@ export const onRequestPost: PagesFunction = async ({ request, env }) => {
     ]
   }) as any;
   const result = aiRes?.response || aiRes?.result || JSON.stringify(aiRes);
-  return new Response(JSON.stringify({ result }), { headers: { "Content-Type": "application/json" } });
+  return new Response(JSON.stringify({ result }), { status: 200, headers: { "Content-Type": "application/json" } });
 };
