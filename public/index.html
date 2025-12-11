@@ -94,6 +94,11 @@
     .btn-primary.loading::after { border-color: rgba(255,255,255,0.3); border-top-color: white; }
     .btn-secondary.loading::after { border-color: var(--border-color); border-top-color: var(--primary); }
     .btn-accent.loading::after { border-color: rgba(0,0,0,0.2); border-top-color: #1a1a1a; }
+    /* Word count */
+    .word-count { display: flex; justify-content: flex-end; gap: 16px; padding: 8px 4px 0; font-size: 12px; color: var(--text-muted); }
+    .word-count span { display: flex; align-items: center; gap: 4px; }
+    .count-label { opacity: 0.7; }
+    .count-value { font-weight: 600; color: var(--primary); }
   </style>
 </head>
 <body>
@@ -132,6 +137,10 @@
       <h2 class="section-title">Your Note</h2>
       <div class="section-box">
         <textarea id="note" class="note-area" placeholder="Write your note here..."></textarea>
+        <div class="word-count">
+          <span><span class="count-label">Words:</span> <span id="wordCount" class="count-value">0</span></span>
+          <span><span class="count-label">Characters:</span> <span id="charCount" class="count-value">0</span></span>
+        </div>
         <div class="btn-row">
           <button id="save" class="btn btn-primary">💾 Save</button>
           <button id="summarize" class="btn btn-secondary">📝 Summarize</button>

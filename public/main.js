@@ -71,8 +71,24 @@ const el = {
   htmlPreview: document.getElementById('htmlPreview'),
   htmlCode: document.getElementById('htmlCode'),
   loadingOverlay: document.getElementById('loadingOverlay'),
-  loadingText: document.getElementById('loadingText')
+  loadingText: document.getElementById('loadingText'),
+  wordCount: document.getElementById('wordCount'),
+  charCount: document.getElementById('charCount')
 };
+
+// Word count functionality
+function updateWordCount() {
+  const text = el.note.value;
+  const charCount = text.length;
+  const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
+  el.wordCount.textContent = wordCount.toLocaleString();
+  el.charCount.textContent = charCount.toLocaleString();
+}
+
+// Update on input
+el.note.addEventListener('input', updateWordCount);
+// Initialize on load
+updateWordCount();
 
 // Loading state management
 const loading = {
@@ -259,6 +275,7 @@ el.previewHtml.addEventListener('click', () => {
     if (content) {
       el.note.value = content;
       el.output.textContent = 'Loaded last note for this session.';
+      updateWordCount();
     }
   } catch (_) {
     // ignore if none
