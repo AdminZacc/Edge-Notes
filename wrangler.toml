@@ -1,0 +1,20 @@
+name = "edge-notes"
+compatibility_date = "2024-11-20"
+
+# Pages Functions
+[pages]
+project_name = "edge-notes"
+
+# Bindings
+[[kv_namespaces]]
+binding = "NOTES_KV"
+id = "__REPLACE_WITH_KV_NAMESPACE_ID__"
+
+[vars]
+TURNSTILE_SITE_KEY = "__REPLACE_WITH_TURNSTILE_SITE_KEY__"
+
+[ai]
+binding = "AI"
+
+# Turnstile secret via environment (recommended)
+# Add in your Cloudflare dashboard or with `wrangler secrets put TURNSTILE_SECRET`
