@@ -8,6 +8,7 @@ export interface Env {
 export type PagesFunction = (ctx: {
   request: Request;
   env: Env;
+  next: () => Promise<Response>;
 }) => Promise<Response | void>;
 
 export interface Ai {

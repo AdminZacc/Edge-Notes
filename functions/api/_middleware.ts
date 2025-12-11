@@ -29,19 +29,23 @@ function addCorsHeaders(response: Response): Response {
 }
 
 // Shared middleware: Turnstile validation
-export const onRequestPost: PagesFunction = async ({ request, env }) => {
-  // Allow certain routes to bypass Turnstile (e.g., loading last note)
+export const onRequestPost: PagesFunction = async ({ request, env, next }) => {
+  // Allow certain routes to bypass Turnstile (e.g., loading last note, health check)
   const url = new URL(request.url);
   const path = url.pathname.toLowerCase();
-  const bypass = path.endsWith('/api/load');
+  const bypass = path.endsWith('/api/load') || path.endsWith('/api/health');
 
   // In local dev or if secret not configured, bypass validation
   const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1';
   if (bypass || isLocal || !env.TURNSTILE_SECRET) {
-    return; // proceed without Turnstile check
+    // Call next() to proceed to the handler
+    const response = await next();
+    return addCorsHeaders(response);
   }
 
-  const body = await request.json().catch(() => ({})) as { turnstileToken?: string };
+  // Clone the request so we can read the body without consuming it
+  const clonedRequest = request.clone();
+  const body = await clonedRequest.json().catch(() => ({})) as { turnstileToken?: string };
   const token = body?.turnstileToken;
   if (!token) {
     return addCorsHeaders(new Response(JSON.stringify({ error: "Missing Turnstile token" }), { status: 400, headers: { "Content-Type": "application/json" } }));
@@ -56,4 +60,8 @@ export const onRequestPost: PagesFunction = async ({ request, env }) => {
   if (!verify.success) {
     return addCorsHeaders(new Response(JSON.stringify({ error: "Turnstile failed" }), { status: 403, headers: { "Content-Type": "application/json" } }));
   }
+
+  // Proceed to the handler
+  const response = await next();
+  return addCorsHeaders(response);
 };

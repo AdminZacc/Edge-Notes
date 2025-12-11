@@ -1,10 +1,11 @@
 import type { PagesFunction } from "./types";
+import { jsonResponse } from "./cors";
 
 export const onRequestPost: PagesFunction = async ({ env }) => {
   const aiBound = !!env.AI;
   const kvBound = !!env.NOTES_KV;
   const turnstileSecret = !!env.TURNSTILE_SECRET;
-  const siteKey = (env as any).TURNSTILE_SITE_KEY || null;
+  const siteKey = (env as unknown as { TURNSTILE_SITE_KEY?: string }).TURNSTILE_SITE_KEY || null;
 
   // Try minimal KV/AI checks without throwing
   let kvCheck: string | null = null;
@@ -22,5 +23,5 @@ export const onRequestPost: PagesFunction = async ({ env }) => {
     turnstileSecret,
     siteKeyPresent: !!siteKey,
   };
-  return new Response(JSON.stringify(result), { status: 200, headers: { "Content-Type": "application/json" } });
+  return jsonResponse(result);
 };

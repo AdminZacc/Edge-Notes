@@ -1,10 +1,16 @@
 import type { PagesFunction } from "./types";
+import { jsonResponse, errorResponse } from "./cors";
+
+interface TranslateRequest {
+  content?: string;
+  target?: string;
+}
 
 export const onRequestPost: PagesFunction = async ({ request, env }) => {
   try {
-    const { content, target = "es" } = await request.json();
+    const { content, target = "es" } = await request.json() as TranslateRequest;
     if (!content || typeof content !== "string") {
-      return new Response(JSON.stringify({ error: "Invalid content" }), { status: 400, headers: { "Content-Type": "application/json" } });
+      return errorResponse("Invalid content", 400);
     }
     const prompt = `Translate the following text into ${target}. Preserve meaning and tone.\n\n${content}`;
     const aiRes = await env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
@@ -12,10 +18,11 @@ export const onRequestPost: PagesFunction = async ({ request, env }) => {
         { role: "system", content: "You are a helpful assistant." },
         { role: "user", content: prompt }
       ]
-    }) as any;
+    }) as { response?: string; result?: string };
     const result = aiRes?.response || aiRes?.result || JSON.stringify(aiRes);
-    return new Response(JSON.stringify({ result }), { status: 200, headers: { "Content-Type": "application/json" } });
-  } catch (err: any) {
-    return new Response(JSON.stringify({ error: "AI translate failed", details: String(err?.message || err) }), { status: 500, headers: { "Content-Type": "application/json" } });
+    return jsonResponse({ result });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    return errorResponse("AI translate failed", 500, message);
   }
 };
