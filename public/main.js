@@ -24,8 +24,22 @@ async function callApi(path, body) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ ...body, turnstileToken, sessionId })
   });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || 'Request failed');
+  const ct = res.headers.get('content-type') || '';
+  let data;
+  if (ct.includes('application/json')) {
+    try {
+      data = await res.json();
+    } catch (e) {
+      const text = await res.text();
+      throw new Error(`Invalid JSON response: ${text.slice(0, 200)}`);
+    }
+  } else {
+    const text = await res.text();
+    // Attempt to parse if it looks like JSON, otherwise return text as error
+    try { data = JSON.parse(text); }
+    catch (_) { throw new Error(text || 'Non-JSON response'); }
+  }
+  if (!res.ok) throw new Error(data.error || data.message || 'Request failed');
   return data;
 }
 
