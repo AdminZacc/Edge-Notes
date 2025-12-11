@@ -2,17 +2,15 @@ name = "edge-notes"
 compatibility_date = "2024-11-20"
 pages_build_output_dir = "./public"
 
-# Pages Functions
-[pages]
-project_name = "edge-notes"
+## Pages config: use top-level pages_build_output_dir; project name via CLI
 
 # Bindings
 [[kv_namespaces]]
 binding = "NOTES_KV"
-id = "__REPLACE_WITH_KV_NAMESPACE_ID__"
+id = "9258fcb1542b461bba118f6692fe64cd"
 
 [vars]
-TURNSTILE_SITE_KEY = "__REPLACE_WITH_TURNSTILE_SITE_KEY__"
+TURNSTILE_SITE_KEY = "0x4AAAAAACGDYOUZ7rQLmpab"
 
 [ai]
 binding = "AI"
