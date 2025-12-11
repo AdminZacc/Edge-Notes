@@ -15,5 +15,4 @@ TURNSTILE_SITE_KEY = "0x4AAAAAACGDYOUZ7rQLmpab"
 [ai]
 binding = "AI"
 
-# Turnstile secret via environment (recommended)
-# Add in your Cloudflare dashboard or with `wrangler secrets put TURNSTILE_SECRET`
+
