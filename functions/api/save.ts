@@ -3,7 +3,7 @@ import type { Env, PagesFunction } from "./types";
 export const onRequestPost: PagesFunction = async ({ request, env }) => {
   const { content, sessionId } = await request.json();
   if (!content || typeof content !== "string") {
-    return new Response(JSON.stringify({ error: "Invalid content" }), { status: 400 });
+    return new Response(JSON.stringify({ error: "Invalid content" }), { status: 400, headers: { "Content-Type": "application/json" } });
   }
   const key = crypto.randomUUID();
   await env.NOTES_KV.put(`note:${key}`, content, { metadata: { created: Date.now() } });
