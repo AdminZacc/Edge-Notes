@@ -2,6 +2,17 @@ import type { PagesFunction } from "./types";
 
 // Shared middleware: Turnstile validation
 export const onRequestPost: PagesFunction = async ({ request, env }) => {
+  // Allow certain routes to bypass Turnstile (e.g., loading last note)
+  const url = new URL(request.url);
+  const path = url.pathname.toLowerCase();
+  const bypass = path.endsWith('/api/load');
+
+  // In local dev or if secret not configured, bypass validation
+  const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1';
+  if (bypass || isLocal || !env.TURNSTILE_SECRET) {
+    return; // proceed without Turnstile check
+  }
+
   const body = await request.json().catch(() => ({}));
   const token = body?.turnstileToken;
   if (!token) {
