@@ -48,33 +48,13 @@
   </style>
 </head>
 <body>
-  <!-- Progress bar -->
-  <div id="progressContainer" class="progress-container">
-    <div id="progressBar" class="progress-bar">
-      <div class="progress-glow"></div>
-    </div>
-  </div>
-
-  <!-- Loading overlay -->
-  <div id="loadingOverlay" class="loading-overlay">
-    <div class="loading-card">
-      <div class="spinner"></div>
-      <span id="loadingText" class="loading-text">Processing...</span>
-    </div>
-  </div>
-
-  <div class="card-wrapper">
-    <div class="theme-toggle">
-      <button class="theme-btn" data-theme="light" title="Light mode">☀️</button>
-      <button class="theme-btn" data-theme="dark" title="Dark mode">🌙</button>
-      <button class="theme-btn active" data-theme="system" title="System preference">💻</button>
-    </div>
-    <!-- Image Section -->
+  <header style="background: none; border: none; box-shadow: none; padding: 0; margin: 0; text-align: center;">
     <div style="background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); padding: 2rem; max-width: 300px; margin: 2rem auto; overflow-wrap: break-word;">
-      <img src="/logo.png" style="width: 300px;" class="fr-fic fr-dib" alt="Rural Health Connect Logo">
+      <img src="/logo.png" style="width: 300px;" alt="Rural Health Connect Logo">
     </div>
-    <div class="card" style="background-color:#ffffff; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.15); padding:2rem; max-width:800px; margin:2rem auto; overflow-wrap:break-word; word-break:break-word; box-sizing:border-box;">
-      <!-- Header -->
+  </header>
+  <main style="background: none; border: none; box-shadow: none; padding: 0; margin: 0;">
+    <section style="background-color:#ffffff; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.15); padding:2rem; max-width:800px; margin:2rem auto; overflow-wrap:break-word; word-break:break-word; box-sizing:border-box;">
       <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
         <div style="width:60px; height:60px; background:#003057; color:white; display:flex; align-items:center; justify-content:center; border-radius:10px; font-weight:bold; font-size:20px;">EN</div>
         <div>
@@ -88,91 +68,82 @@
           </div>
         </div>
       </div>
-
-    <!-- Note Input Section -->
-    <section class="section">
-      <h2 class="section-title">Your Note</h2>
-      <div class="section-box">
-        <textarea id="note" class="note-area" placeholder="Write your note here..."></textarea>
-        <div class="word-count">
-          <span><span class="count-label">Words:</span> <span id="wordCount" class="count-value">0</span></span>
-          <span><span class="count-label">Characters:</span> <span id="charCount" class="count-value">0</span></span>
+      <section style="margin-bottom: 18px;">
+        <h2 style="color:#003057; margin:0 0 10px 0; font-size:1.1rem;">Your Note</h2>
+        <div style="padding:12px; border-radius:8px; background:#f1f5f9; border:1px solid #eaf3ff;">
+          <textarea id="note" style="width:100%; min-height:180px; padding:12px; border-radius:8px; border:1px solid #d1d5db; background:#fff; color:#1a1a1a; font-size:15px; resize:vertical; box-sizing:border-box;" placeholder="Write your note here..."></textarea>
+          <div style="display:flex; justify-content:flex-end; gap:16px; padding:8px 4px 0; font-size:12px; color:#6b7280;">
+            <span><span style="opacity:0.7;">Words:</span> <span id="wordCount" style="font-weight:600; color:#003057;">0</span></span>
+            <span><span style="opacity:0.7;">Characters:</span> <span id="charCount" style="font-weight:600; color:#003057;">0</span></span>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;">
+            <button id="save" style="padding:8px 16px; border-radius:8px; border:none; font-size:14px; font-weight:500; cursor:pointer; background:#003057; color:white;">💾 Save</button>
+            <button id="summarize" style="padding:8px 16px; border-radius:8px; border:none; font-size:14px; font-weight:500; cursor:pointer; background:#f1f5f9; color:#003057; border:1px solid #eaf3ff;">📝 Summarize</button>
+            <button id="bullets" style="padding:8px 16px; border-radius:8px; border:none; font-size:14px; font-weight:500; cursor:pointer; background:#f1f5f9; color:#003057; border:1px solid #eaf3ff;">📌 Bullets</button>
+            <button id="translate" style="padding:8px 16px; border-radius:8px; border:none; font-size:14px; font-weight:500; cursor:pointer; background:#f1f5f9; color:#003057; border:1px solid #eaf3ff;">🌐 Translate (ES)</button>
+            <button id="rewrite" style="padding:8px 16px; border-radius:8px; border:none; font-size:14px; font-weight:500; cursor:pointer; background:#f1f5f9; color:#003057; border:1px solid #eaf3ff;">✨ Rewrite</button>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:12px;">
+            <label for="styleSelect" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;">Select writing style</label>
+            <select id="styleSelect" title="Select writing style" style="padding:8px 12px; border-radius:8px; border:1px solid #d1d5db; font-size:14px; background:#fff; color:#1a1a1a;">
+              <optgroup label="📋 Professional">
+                <option value="formal">Formal</option>
+                <option value="business">Business</option>
+                <option value="academic">Academic</option>
+                <option value="technical">Technical</option>
+              </optgroup>
+              <optgroup label="💬 Conversational">
+                <option value="casual">Casual</option>
+                <option value="friendly">Friendly</option>
+                <option value="simple">Simple</option>
+              </optgroup>
+              <optgroup label="✨ Creative">
+                <option value="creative">Creative</option>
+                <option value="poetic">Poetic</option>
+                <option value="storytelling">Storytelling</option>
+                <option value="humorous">Humorous</option>
+              </optgroup>
+              <optgroup label="🎯 Persuasive">
+                <option value="persuasive">Persuasive</option>
+                <option value="motivational">Motivational</option>
+                <option value="sales">Sales Pitch</option>
+              </optgroup>
+              <optgroup label="📰 Content">
+                <option value="journalistic">Journalistic</option>
+                <option value="social">Social Media</option>
+                <option value="seo">SEO Optimized</option>
+              </optgroup>
+            </select>
+            <button id="style" style="padding:8px 16px; border-radius:8px; border:none; font-size:14px; font-weight:500; cursor:pointer; background:#ffb300; color:#1a1a1a;">🎨 Apply Style</button>
+          </div>
         </div>
-        <div class="btn-row">
-          <button id="save" class="btn btn-primary">💾 Save</button>
-          <button id="summarize" class="btn btn-secondary">📝 Summarize</button>
-          <button id="bullets" class="btn btn-secondary">📌 Bullets</button>
-          <button id="translate" class="btn btn-secondary">🌐 Translate (ES)</button>
-          <button id="rewrite" class="btn btn-secondary">✨ Rewrite</button>
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAACGDYOUZ7rQLmpab" data-callback="onTurnstile"></div>
+      </section>
+      <section style="margin-bottom: 18px;">
+        <h2 style="color:#003057; margin:0 0 10px 0; font-size:1.1rem;">AI Output</h2>
+        <div style="padding:12px; border-left:4px solid #ffb300; background:#fff9eb; border-radius:8px; color:#553d07;">
+          <div id="output" style="width:100%; min-height:120px; padding:12px; border-radius:8px; background:#f1f5f9; border:1px solid #eaf3ff; white-space:pre-wrap; word-wrap:break-word; font-family:inherit; font-size:14px; box-sizing:border-box; color:#1a1a1a;"></div>
         </div>
-        <div class="style-row">
-          <label for="styleSelect" class="sr-only">Select writing style</label>
-          <select id="styleSelect" title="Select writing style" class="style-select">
-            <optgroup label="📋 Professional">
-              <option value="formal">Formal</option>
-              <option value="business">Business</option>
-              <option value="academic">Academic</option>
-              <option value="technical">Technical</option>
-            </optgroup>
-            <optgroup label="💬 Conversational">
-              <option value="casual">Casual</option>
-              <option value="friendly">Friendly</option>
-              <option value="simple">Simple</option>
-            </optgroup>
-            <optgroup label="✨ Creative">
-              <option value="creative">Creative</option>
-              <option value="poetic">Poetic</option>
-              <option value="storytelling">Storytelling</option>
-              <option value="humorous">Humorous</option>
-            </optgroup>
-            <optgroup label="🎯 Persuasive">
-              <option value="persuasive">Persuasive</option>
-              <option value="motivational">Motivational</option>
-              <option value="sales">Sales Pitch</option>
-            </optgroup>
-            <optgroup label="📰 Content">
-              <option value="journalistic">Journalistic</option>
-              <option value="social">Social Media</option>
-              <option value="seo">SEO Optimized</option>
-            </optgroup>
-          </select>
-          <button id="style" class="btn btn-accent">🎨 Apply Style</button>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;">
+          <button id="toHtml" style="padding:8px 16px; border-radius:8px; border:none; font-size:14px; font-weight:500; cursor:pointer; background:#f1f5f9; color:#003057; border:1px solid #eaf3ff;">📄 Convert to HTML</button>
+          <button id="copyHtml" style="padding:8px 16px; border-radius:8px; border:none; font-size:14px; font-weight:500; cursor:pointer; background:#f1f5f9; color:#003057; border:1px solid #eaf3ff;">📋 Copy HTML</button>
+          <button id="previewHtml" style="padding:8px 16px; border-radius:8px; border:none; font-size:14px; font-weight:500; cursor:pointer; background:#ffb300; color:#1a1a1a;">👁️ Preview</button>
         </div>
-      </div>
-      <div class="cf-turnstile" data-sitekey="0x4AAAAAACGDYOUZ7rQLmpab" data-callback="onTurnstile"></div>
+      </section>
+      <section id="previewSection" style="margin-bottom: 18px; display:none;">
+        <h2 style="color:#003057; margin:0 0 10px 0; font-size:1.1rem;">HTML Preview</h2>
+        <div id="htmlPreview"></div>
+        <div style="padding:12px; border-radius:8px; background:#f1f5f9; border:1px solid #eaf3ff; margin-top:12px;">
+          <h3 style="margin:0 0 8px 0; font-size:14px; color:#003057;">HTML Code:</h3>
+          <textarea id="htmlCode" style="width:100%; min-height:120px; padding:12px; border-radius:8px; border:1px solid #d1d5db; background:#fff; color:#1a1a1a; font-size:12px; font-family:monospace;" readonly></textarea>
+        </div>
+      </section>
+      <aside style="padding:12px; border-radius:8px; background:#fff9eb; border-left:4px solid #ffb300; color:#553d07; margin-top:12px; font-size:13px;">
+        <strong>💡 Tip:</strong> Your notes are saved anonymously and linked to your browser session. Use the style dropdown to transform your writing into different tones!
+      </aside>
     </section>
-
-    <!-- AI Output Section -->
-    <section class="section">
-      <h2 class="section-title">AI Output</h2>
-      <div class="highlight-box">
-        <div id="output" class="output-box"></div>
-      </div>
-      <div class="btn-row">
-        <button id="toHtml" class="btn btn-secondary">📄 Convert to HTML</button>
-        <button id="copyHtml" class="btn btn-secondary">📋 Copy HTML</button>
-        <button id="previewHtml" class="btn btn-accent">👁️ Preview</button>
-      </div>
-    </section>
-
-    <!-- HTML Preview Section (hidden by default) -->
-    <section id="previewSection" class="section hidden">
-      <h2 class="section-title">HTML Preview</h2>
-      <div id="htmlPreview"></div>
-      <div class="section-box mt-12">
-        <h3 class="code-label">HTML Code:</h3>
-        <textarea id="htmlCode" class="note-area code-area" readonly></textarea>
-      </div>
-    </section>
-
-    <div class="reminder">
-      <strong>💡 Tip:</strong> Your notes are saved anonymously and linked to your browser session. Use the style dropdown to transform your writing into different tones!
-    </div>
-
-    <div class="footer">Built with ❤️ on Cloudflare Pages + Workers AI + KV + Turnstile</div>
-  </div>
-  </div>
-
+  </main>
+  <footer style="font-size:11px; color:#6b7280; text-align:center; margin-top:16px;">Built with ❤️ on Cloudflare Pages + Workers AI + KV + Turnstile</footer>
   <script type="module" src="/main.js"></script>
 </body>
 </html>
