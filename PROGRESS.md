@@ -2,7 +2,20 @@
 
 A chronicle of building Edge Notes, an AI-powered note-taking app running on Cloudflare's edge network.
 
----
+
+### Phase 4: Logo Upload & Serving (December 2025)
+
+**Features:**
+- Added UI and backend endpoint to upload a logo image via browser.
+- Switched logo storage from KV to D1 (Cloudflare SQLite).
+- Created D1 table `images` with columns: `id` (TEXT PRIMARY KEY), `data` (BLOB), `content_type` (TEXT).
+- Implemented `/api/upload-logo` to store the logo as id = 'logo'.
+- Updated `/api/logo` endpoint to serve the logo from D1, ensuring correct binary output.
+- Updated UI to display logo from `/api/logo` and removed upload form after success.
+
+**Status:**
+- Logo upload and serving from D1 is working.
+- Pausing further work for now; next steps will resume from here.
 
 ## 🎯 Project Overview
 
