@@ -15,4 +15,8 @@ TURNSTILE_SITE_KEY = "0x4AAAAAACGDYOUZ7rQLmpab"
 [ai]
 binding = "AI"
 
+[[d1_databases]]
+binding = "images"
+database_name = "images"
+database_id = "ee767c89-629d-436e-b888-b6558166d077"
 
