@@ -3,6 +3,7 @@ export interface Env {
   NOTES_KV: KVNamespace;
   TURNSTILE_SECRET: string;
   AI: Ai;
+  images: D1Database;
 }
 
 export type PagesFunction = (ctx: {
