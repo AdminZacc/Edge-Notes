@@ -442,7 +442,7 @@ var onRequestPost10 = /* @__PURE__ */ __name(async ({ request, env, next }) => {
   return addCorsHeaders(response);
 }, "onRequestPost");
 
-// ../.wrangler/tmp/pages-o3lvRQ/functionsRoutes-0.5960451913230829.mjs
+// ../.wrangler/tmp/pages-JTUFrt/functionsRoutes-0.5195106308955209.mjs
 var routes = [
   {
     routePath: "/api/bullets",
