@@ -6,7 +6,18 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   if (!result || !result.data) {
     return new Response("Not found", { status: 404 });
   }
-  return new Response(result.data, {
+  // Ensure data is a Uint8Array for Response
+  let binary;
+  if (result.data instanceof Uint8Array) {
+    binary = result.data;
+  } else if (Array.isArray(result.data)) {
+    binary = new Uint8Array(result.data);
+  } else if (result.data?.buffer) {
+    binary = new Uint8Array(result.data.buffer);
+  } else {
+    binary = result.data;
+  }
+  return new Response(binary, {
     headers: {
       "Content-Type": result.content_type || "image/png",
       "Cache-Control": "public, max-age=31536000"
