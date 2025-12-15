@@ -1,3 +1,36 @@
+  <section style="background:#fff; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.15); padding:2rem; max-width:400px; margin:2rem auto;">
+    <h2 style="color:#003057; margin:0 0 10px 0; font-size:1.1rem;">Upload Logo Image</h2>
+    <form id="logoUploadForm" enctype="multipart/form-data" method="POST" action="/api/upload-logo">
+      <input type="file" name="file" accept="image/*" required style="margin-bottom:12px;" />
+      <button type="submit" style="padding:8px 16px; border-radius:8px; border:none; font-size:14px; font-weight:500; cursor:pointer; background:#003057; color:white;">Upload</button>
+    </form>
+    <div id="logoUploadMsg" style="margin-top:10px; color:#003057;"></div>
+  </section>
+  <script>
+    // Logo upload form handler (AJAX)
+    const logoForm = document.getElementById('logoUploadForm');
+    if (logoForm) {
+      logoForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(logoForm);
+        const msg = document.getElementById('logoUploadMsg');
+        msg.textContent = 'Uploading...';
+        try {
+          const res = await fetch('/api/upload-logo', {
+            method: 'POST',
+            body: formData
+          });
+          if (res.ok) {
+            msg.textContent = 'Logo uploaded successfully!';
+          } else {
+            msg.textContent = 'Upload failed: ' + (await res.text());
+          }
+        } catch (err) {
+          msg.textContent = 'Error: ' + err;
+        }
+      });
+    }
+  </script>
 <!doctype html>
 <html lang="en">
 <head>
